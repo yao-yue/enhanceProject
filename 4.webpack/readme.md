@@ -23,16 +23,21 @@ webpack自身能够打包js和json文件，并且能讲es6的模块化处理成�
 - webpack5的一些新特点
 
 ### webpack的基本配置
-- 打包样式资源   
-npm i css-loader style-loader less-loader less -D 
-- 打包html资源
-npm install--save-dev html-webpack-plugin  
+1. 打包样式资源   
+- 打包css
+- 打包less
+2. 打包html
+- html-webpack-plugin  
 功能：默认会创建一个空的 HTML，自动引入打包输出的所有资源（JS/CSS） 
-// 复制 './src/index.html' 文件，并自动引入打包输出的所有资源（JS/CSS）
-template: './src/index.html' 
-- 打包图片资源
-npm install--save-dev html-loader url-loader file-loader 
+- template: './src/index.html' 
+复制 './src/index.html' 文件，并自动引入打包输出的所有资源（JS/CSS）
+3. 打包图片资源
+url-loader 
+html-loader  处理html文件中的img图片（负责引入，再交给url-loader处理）
+**这里有一个问题需要注意： html-loader引入图片是commonjs规则，而url-loader是Es6模块规则，需要关闭其ES6模块规则  在options里配置 esModule: false**
+file-loader 
 - devServer
+用来自动化，自动编译，自动打开浏览器，自动刷新浏览器
 
 ### webpack的生产环境配置
 1. 提取css成单独文件
