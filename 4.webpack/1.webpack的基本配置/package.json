@@ -1,0 +1,15 @@
+{
+  "name": "webpack-base-konwledge",
+  "version": "1.0.0",
+  "description": "base-konwledge",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "hbw",
+  "license": "ISC",
+  "devDependencies": {
+    "webpack": "^4.41.6",
+    "webpack-cli": "^3.3.11"
+  }
+}
