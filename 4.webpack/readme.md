@@ -34,7 +34,7 @@ webpack自身能够打包js和json文件，并且能讲es6的模块化处理成�
 3. 打包图片资源
 url-loader 
 html-loader  处理html文件中的img图片（负责引入，再交给url-loader处理）
-**这里有一个问题需要注意： html-loader引入图片是commonjs规则，而url-loader是Es6模块规则，需要关闭其ES6模块规则  在options里配置 esModule: false**
+**这里有一个问题需要注意： html-loader引入图片是commonjs规则，而url-loader是Es6模块规则，需要关闭其ES6模块规则  在options里配置 esModule: false**    
 file-loader 
 4. devServer
 用来自动化，自动编译，自动打开浏览器，自动刷新浏览器
@@ -50,7 +50,7 @@ outputPath: 'media'
 
 
 ### webpack的生产环境配置
-1. 提取css成单独文件
+#### 1. 提取css成单独文件
 mini-css-extract-plugin 
 在loader-----use配置中
 MiniCssExtractPlugin.loader  替代  style-loader
@@ -60,7 +60,7 @@ new MiniCssExtractPlugin({
     filename: 'css/built.css' 
 })
 ```
-2. css兼容性处理
+#### 2. css兼容性处理
 关键词： 
 1. postcss-loader postcss-preset-env
 2. 设置环境node环境变量  process.env.NODE_ENV = 'development'
@@ -93,11 +93,11 @@ new MiniCssExtractPlugin({
 }
 ```
 
-3. 压缩CSS 
+#### 3. 压缩CSS 
 关键词：
 1. optimize-css-assets-webpack-plugin
 
-4. js语法检查
+#### 4. js语法检查
 关键词： 
 1. eslint eslint-loader
 2. eslint-config-airbnb-base eslint-plugin-import
@@ -113,12 +113,50 @@ new MiniCssExtractPlugin({
 4. 记得在配置中exclude: /node_modules/
 ```options: {
     fix: true， //开始自动修复 
-}```
+}
+```
 
-5. js兼容性处理 
-6. js压缩
-7. html压缩
-8. 生产环境基本配置
+#### 5. js兼容性处理 
+关键词：  babel
+1. babel-loader @babel/core @babel/preset-env @babel/polyfill core-js
+2. 
+```
+presets: [ [ 
+    '@babel/preset-env', 
+    { 
+    // 按需加载 
+    useBuiltIns: 'usage', 
+    // 指定 core-js 版本 
+    corejs: { version: 3 }, 
+    // 指定兼容性做到哪个版本浏览器 
+    targets: { 
+        chrome: '60',
+        firefox: '60',
+        ie: '9',
+        safari: '10',
+        edge: '17' } 
+        } 
+    ] 
+]
+```
+
+#### 6. js压缩
+生产模式下会自动压缩js代码
+
+#### 7. html压缩
+```
+// 压缩 html 代码 template同级
+minify: { 
+    // 移除空格 
+    collapseWhitespace: true,
+    // 移除注释 
+    removeComments: true 
+} 
+```
+#### 8. 生产环境基本配置
+一些需要注意的小细节：一般来说一个文件只让一个loader处理，有例外比如js文件，需要eslint检查及babel处理，这个时候就需要保证loader的处理顺序，先执行eslint再执行babel
+配置  enforce: 'pre'
+
 
 ### webpack的优化
 1. 开发环境优化
@@ -127,5 +165,57 @@ new MiniCssExtractPlugin({
 2. 生产环境优化
 - 提高打包构建速度
 - 提高代码性能
+
+### 优化关键词
+1. HMR，即hot module rewrite
+devServer 里面 hot：true。
+2. source-map   
+几种source-map的配置及其特点  关键词cheap\eval还有外部和inline之分，是否隐藏源代码及报错的充分性
+推荐用法： 开发环境eval-source-map、生产环境 source-map、
+其作用，构建打包生成文件到源代码的映射。\t 
+使用: devtool: 'source-map'
+3. oneOf:[]其中的loader只会匹配一个文件、检查js的eslint-loader要放在外面优先执行
+4. 缓存 开启babel缓存，options里面配置 cacheDirectory: true.
+5. tree-shaking 开启生产模式
+6. code-split
+- 配置 
+- 1. 可以将node_modules中模块单独打包成一个chunk
+- 2. 自动分析多入口chunk,可以将多入口中的公共文件单独打包成一个chunk,避免重复打包
+```
+optimization： {
+    splitChunks: {
+        chunks: 'all'
+    }
+}
+```
+对于他们的单入口和多入口还是有些笔记要写：之后再补充把。
+7. lazyloading和presetloading懒加载和预加载
+8. pwa 渐进式网络开发应用程序
+- 效果：网页在离线状态时还能进行一定的访问和浏览，不是直接404,淘宝网采用了这个
+- 关键词： workbox-webpack-plugin
+- 配置： 
+```
+new WorkboxWebpackPlugin.GenerateSW({ 
+/* 1. 帮助 serviceworker 快速启动 
+   2. 删除旧的 serviceworker 生成一个 serviceworker 配置文件~
+*/ 
+    clientsClaim: true,
+    skipWaiting: true 
+})
+
+```
+
+9. 多进程打包
+- 关键词： thread-loader
+- 配置： options: { workers: 2 }
+
+10. externals
+避免一些不想要打包的文件被打包进来
+
+11. DLL技术
+add-asset-html-webpack-plugin
+- 1. 告诉 webpack 哪些库不参与打包，同时使用时的名称也得变 mainfest
+- 2. 将某个文件打包输出去，并在 html 中自动引入该资源  filepath
+
 
 ### webpack5的一些新特点了解
