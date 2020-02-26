@@ -36,14 +36,85 @@ url-loader
 html-loader  处理html文件中的img图片（负责引入，再交给url-loader处理）
 **这里有一个问题需要注意： html-loader引入图片是commonjs规则，而url-loader是Es6模块规则，需要关闭其ES6模块规则  在options里配置 esModule: false**
 file-loader 
-- devServer
+4. devServer
 用来自动化，自动编译，自动打开浏览器，自动刷新浏览器
+配置： compress\ contentBase \ port \ open
+运行 npx webpack-dev-server
+npx----npx 想要解决的主要问题，就是调用项目内部安装的模块,避免全局安装模块
+npx 的原理很简单，就是运行的时候，会到node_modules/.bin路径和环境变量$PATH里面，检查命令是否存在。
+5. 开发环境配置
+在loader里面的options里面配置outputPath可以实现不同的资源分文件打包，打包更清晰
+outputPath: 'imgs'  
+outputPath: 'media'
+
+
 
 ### webpack的生产环境配置
 1. 提取css成单独文件
+mini-css-extract-plugin 
+在loader-----use配置中
+MiniCssExtractPlugin.loader  替代  style-loader
+```
+new MiniCssExtractPlugin({ 
+    // 对输出的 css 文件进行重命名 
+    filename: 'css/built.css' 
+})
+```
 2. css兼容性处理
+关键词： 
+1. postcss-loader postcss-preset-env
+2. 设置环境node环境变量  process.env.NODE_ENV = 'development'
+3. use中加入
+```
+{
+    loader: 'postcss-loader',
+    options: {
+      ident: 'postcss',
+      plugins: () => [
+          //postcss的插件
+          require('postcss-preset-env')()
+      ] 
+    }
+}
+```
+4. 修改package.json加入兼容性相关信息
+```
+"browserslist": {
+    "development": [
+        "last 1 chrome version",
+        "last 1 firefox version",
+        "last 1 safari version"
+    ],
+    "production": [
+        ">0.2%",   //兼容市面上大多的浏览器
+        "no dead", //不兼容已经死掉的浏览器
+        "not op_mini all"  
+    ]
+}
+```
+
 3. 压缩CSS 
+关键词：
+1. optimize-css-assets-webpack-plugin
+
 4. js语法检查
+关键词： 
+1. eslint eslint-loader
+2. eslint-config-airbnb-base eslint-plugin-import
+3. package.json 中配置
+```
+"eslintConfig": {
+    "extends": "airbnb-base",
+    "env": {
+        "browser": true
+    }
+}
+```
+4. 记得在配置中exclude: /node_modules/
+```options: {
+    fix: true， //开始自动修复 
+}```
+
 5. js兼容性处理 
 6. js压缩
 7. html压缩
