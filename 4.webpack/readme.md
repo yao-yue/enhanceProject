@@ -17,19 +17,19 @@ webpack是一种前端资源构建工具，静态资源打包器
 webpack自身能够打包js和json文件，并且能讲es6的模块化处理成浏览器能处理的语法。开启生产环境能压缩代码
 
 ### 知识点细分
-- webpack的基本配置
-- webpack的生产环境配置
-- webpack的性能优化
-- webpack5的一些新特点
+webpack的基本配置
+webpack的生产环境配置
+webpack的性能优化
+webpack5的一些新特点
 
 ### webpack的基本配置
 1. 打包样式资源   
-- 打包css
-- 打包less
+打包css
+打包less
 2. 打包html
-- html-webpack-plugin  
+html-webpack-plugin  
 功能：默认会创建一个空的 HTML，自动引入打包输出的所有资源（JS/CSS） 
-- template: './src/index.html' 
+template: './src/index.html' 
 复制 './src/index.html' 文件，并自动引入打包输出的所有资源（JS/CSS）
 3. 打包图片资源
 url-loader 
@@ -160,11 +160,11 @@ minify: {
 
 ### webpack的优化
 1. 开发环境优化
-- 提高打包构建速度
-- 优化代码调试
+提高打包构建速度
+优化代码调试
 2. 生产环境优化
-- 提高打包构建速度
-- 提高代码性能
+提高打包构建速度
+提高代码性能
 
 ### 优化关键词
 1. HMR，即hot module rewrite
@@ -178,9 +178,9 @@ devServer 里面 hot：true。
 4. 缓存 开启babel缓存，options里面配置 cacheDirectory: true.
 5. tree-shaking 开启生产模式
 6. code-split
-- 配置 
-- 1. 可以将node_modules中模块单独打包成一个chunk
-- 2. 自动分析多入口chunk,可以将多入口中的公共文件单独打包成一个chunk,避免重复打包
+配置 
+1. 可以将node_modules中模块单独打包成一个chunk
+2. 自动分析多入口chunk,可以将多入口中的公共文件单独打包成一个chunk,避免重复打包
 ```
 optimization： {
     splitChunks: {
@@ -206,16 +206,16 @@ new WorkboxWebpackPlugin.GenerateSW({
 ```
 
 9. 多进程打包
-- 关键词： thread-loader
-- 配置： options: { workers: 2 }
+关键词： thread-loader
+配置： options: { workers: 2 }
 
 10. externals
 避免一些不想要打包的文件被打包进来
 
 11. DLL技术
 add-asset-html-webpack-plugin
-- 1. 告诉 webpack 哪些库不参与打包，同时使用时的名称也得变 mainfest
-- 2. 将某个文件打包输出去，并在 html 中自动引入该资源  filepath
+1. 告诉 webpack 哪些库不参与打包，同时使用时的名称也得变 mainfest
+2. 将某个文件打包输出去，并在 html 中自动引入该资源  filepath
 
 
 ### webpack5的一些新特点了解
