@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: yellow;
+            overflow: hidden;
+        }
+        
+        img {
+            /* max-width是控制溢出宽度、保证宽度不溢出 */
+            /* max-width：100%：如果img宽度大于div宽度，img就显示div100%宽度，比div小就显示img的宽度 */
+            /* width:100%：不管img宽度多少，都显示div宽度 */
+            max-width: 100%;
+        }
+
+        .plane-wrapper {
+            position: absolute;
+            top: 40%;
+            display: inline-block;
+            animation: undulate 2s linear infinite;
+            animation-direction: alternate;
+            /*alternate 交替、轮流*/
+            perspective: 2500px;
+            /*3d效果*/
+            transition: all .5s;
+        }
+
+        .section.animate-out .plane-wrapper {
+            animation: plane-out 1.7s ease-out forwards;
+            /*forwards*/
+        }
+
+        .plane-wrapper .rotate-container {
+            /*后代选择器*/
+            position: absolute;
+            /* 百分比是解决屏幕设备适配问题的一种方案 */
+            top: 51.7003%;
+            left: 13.1%;
+            display: inline-block;
+            width: 27.424%;
+            height: 14.4474%;
+            animation: rotating 2s linear infinite reverse;
+            /*reverse 反方向*/
+        }
+
+        @keyframes plane-out {
+
+            /*先往右退一点，最后70%猛冲，变大*/
+            0% {
+                transform: scale(1) translateX(0);
+            }
+
+            30% {
+                transform: scale(0.8) translateX(160px);
+            }
+
+            100% {
+                transform: scale(3) translateX(-2000px);
+            }
+        }
+
+        @keyframes rotating {
+            0% {
+                /* 三个方向： Y钢管舞  Z X 负值逆时针*/
+                transform: rotate(0deg) rotateY(-20deg);
+            }
+
+            50% {
+                transform: rotate(180deg) rotate(-20deg);
+            }
+
+            100% {
+                transform: rotate(360deg) rotateY(-20deg);
+            }
+        }
+
+        @keyframes undulate {
+
+            0%,
+            100%,
+            50% {
+                transform: translate3d(0, 0, 0);
+            }
+
+            25% {
+                transform: translate3d(-6px, -18px, 0);
+            }
+
+            75% {
+                transform: translate3d(6px, 10px, 0);
+            }
+        }
+
+        /* 响应式——媒体查询  使适配不同设备 */
+        @media (max-width: 769px) {
+            .plane-wrapper {
+                margin-top: -125px;
+                width: 375px;
+            }
+        }
+
+        @media (min-width: 770px) {
+            .plane-wrapper {
+                margin-top: -140px;
+                width: 520px;
+            }
+        }
+
+        @media (min-width: 1280px) {
+            .plane-wrapper {
+                margin-top: -170px;
+                width: 680px;
+            }
+        }
+
+        @media (min-width: 1366px) {
+            .plane-wrapper {
+                margin-top: -195px;
+                width: 780px;
+            }
+        }
+
+        @media (min-width: 1440px) {
+            .plane-wrapper {
+                margin-top: -200px;
+                width: 800px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 测试类的产品，APP的升级可以在这里平稳运行
+    1. 大气而简约
+    飞机 -平稳
+    2. 官网，设备有可能是多种多样的
+    飞机可以随设备的大小而改变
+    缩放图片的大小还是不会变的， 200K 百分比 PC 会模糊， 于是采用svg 图片。
+    不同设备图片处理问题
+    svg 矢量图,不是由像素构成的,数学图形来构成的 -->
+    <div class="section section-1 ready">
+        <div class="plane-wrapper" style="left:315.5px">
+            <!-- <img src="http://fir.im/images/plane.svg" alt="" class="plane"> -->
+            <img src="https://dss1.bdstatic.com/6OF1bjeh1BF3odCf/it/u=551249727,2078558052&fm=190&app=71&f=PNG?w=121&h=75&s=9F94C2012C07DF471C1438D7030080B2" alt="" class="plane">
+            <div class="rotate-container">
+                <img src="https://dss1.bdstatic.com/6OF1bjeh1BF3odCf/it/u=551249727,2078558052&fm=190&app=71&f=PNG?w=121&h=75&s=9F94C2012C07DF471C1438D7030080B2" alt="" class="propeller">
+                <!-- <img src="http://fir.im/images/propeller.svg" alt="" class="propeller"> -->
+            </div>
+        </div>
+    </div>
+    <script>
+        // 获取网页窗口宽度
+        let screenWidth = document.body.clientWidth
+        let planeWrapper = document.querySelector('.plane-wrapper')
+        // 设置非移动端的设备（屏幕较大）时的初始left偏移，让飞机居中显示
+        if (screenWidth > 770) {
+            planeWrapper.style.left = 315.5 + 'px'
+        }
+        window.onresize = function () {
+            screenWidth = document.body.clientWidth
+            planeWrapper = document.querySelector('.plane-wrapper')
+            // 设置left的值为 (网页宽度-飞机盒子宽度)/2
+            let left = (screenWidth - planeWrapper.clientWidth) / 2
+            planeWrapper.style.left = left + 'px'
+        }
+
+        //    事件监听 兼容性的 IE和CHROME的标准不太一样
+        const section = document.querySelector('.section');
+        // document.body.onmousewheel = function(event) {
+        //     // IE9 以下
+        //     section.classList.remove('ready');
+        //     section.classList.add('animate-out');
+        // };
+        document.body.addEventListener('mousewheel', function (event) {
+            //现代浏览器
+            //飞机怎么飞出去？
+            section.classList.remove('ready');
+            section.classList.add('animate-out');
+        });
+    </script>
+</body>
+
+</html>
