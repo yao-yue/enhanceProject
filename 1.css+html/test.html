@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>测试页面</title>
+</head>
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+    }
+    .wrapper {
+        background-color: pink;
+        height: 200px;
+        width: 300px;
+        
+        /* 垂直居中布局开始 */
+        /* display: flex;
+        justify-content: center;
+        align-items: center; */
+
+        /* table布局 */
+        display: table-cell;	
+		text-align: center;	
+		vertical-align: middle;
+    }
+    .box {
+        background-color: green;
+        height: 50px;
+        width: 50px;
+        /* display: inline-block; */
+    }
+</style>
+<body>
+    <div class="wrapper">
+        <div class="box"></div>
+    </div>
+</body>
+</html>
