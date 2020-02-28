@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>lazy-load</title>
+    <style>
+        .wrapper {
+            /* padding-top: 900px; */
+        }
+        .img {
+            width: 200px;
+            height: 200px;
+            background-color: grey;
+        }
+        .pic {
+            /* 写一些图片的样式 */
+            width: 200px;
+            height: 200px;
+        }
+    </style>
+</head>
+<body>
+    <!-- 用live-server测试的时候src本地图片引入不进来 -->
+    <div class="wrapper">
+        <div class="img"><img  data-src="./images/kfc1.jpg" alt="图片" class="pic"></div>
+        <div class="img"><img  data-src="./images/kfc2.jpg" alt="图片" class="pic"></div>
+        <div class="img"><img  data-src="./images/kfc3.jpg" alt="图片" class="pic"></div>
+        <div class="img"><img  data-src="./images/kfc4.jpg" alt="图片" class="pic"></div>
+        <div class="img"><img  data-src="./images/xx2.jpg" alt="图片" class="pic"></div>
+        <div class="img"><img  data-src="./images/xx3.jpg" alt="图片" class="pic"></div>
+        <div class="img"><img  data-src="./images/xx4.jpg" alt="图片" class="pic"></div>
+    </div>
+    <script>
+        //选中图片
+        let imgs = document.querySelectorAll('.wrapper>.img>img');
+        console.log(imgs)
+        const innerHight = window.innerHeight || document.documentElement.clientHeight;
+        //用于记录加载到哪一个图片，避免每次都从第一张图片开始检查是否露出
+        let num = 0;  
+        function lazyLoad() {
+            for(let i = num; i < imgs.length; i++) {
+                //如果元素顶部离视窗顶部的大小小于视窗高度，即已经露出来了
+                let distance = innerHight - imgs[i].getBoundingClientRect().top
+                console.log(distance)
+                if(distance >= 0) {
+                    imgs[i].src = imgs[i].getAttribute('data-src');
+                    console.log(distance);
+                    console.log(imgs[i].src)
+                    num = i + 1;
+                }
+            }
+        }
+        //这里时window对象监听
+        window.addEventListener('scroll',lazyLoad, false);
+    </script>
+</body>
+</html>
