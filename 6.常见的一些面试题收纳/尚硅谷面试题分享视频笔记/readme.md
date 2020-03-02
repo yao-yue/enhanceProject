@@ -116,6 +116,7 @@ function debounce(fn, delay) {
         }, delay)
     }
 }
+发现了一个问题，他这里的this有问题，经测试定时器里面的this指向Timeout对象，故上面的this应应该用闭包来保留一下。  let context = this
 
 ```
 
