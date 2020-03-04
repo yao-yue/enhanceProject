@@ -4,3 +4,7 @@
 
 宏任务：  定时器、 DOM操作、ajax回调
 微任务： promise 、 mutationObserver
+[参考](https://upload-images.jianshu.io/upload_images/14081283-bb7e0ee0ad9afea9.png?imageMogr2/auto-orient/strip|imageView2/2/w/654/format/webp)
+
+宏任务是 浏览器或者node发出的任务
+微任务是 JS引擎发起的任务
