@@ -53,10 +53,13 @@
             var pos = {x: 0, y: 0};
             if(transform) {
                 var transformValue = this.getStyle(transform);
+                console.log('transformValue:',document.defaultView.getComputedStyle(this.elem,false)[transform]);
+                //transformValue:matrix(1, 0, 0, 1, 244, 177)
                 if(transformValue == 'none') {
                     this.elem.style[transform] = 'translate(0, 0)';
                 } else {
                     var temp = transformValue.match(/-?\d+/g);
+                    console.log('temp:',temp)
                     pos = {
                         x: parseInt(temp[4].trim()),
                         y: parseInt(temp[5].trim())
