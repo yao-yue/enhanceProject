@@ -25,6 +25,7 @@
             self.data = value
             //如果有待执行callback函数，放入异步回调队列
             if (self.callbacks.length > 0) {
+                //用定时器模拟异步
                 setTimeout(() => {
                     self.callbacks.forEach(calbacksObj => {
                         //元素calbacksObj为对象{onResolved,onRejected}
@@ -81,8 +82,9 @@
                     const result = callback(self.data)
                     if (result instanceof Promise) {
                         // 简洁写法 result.then(resolve, reject)
+                        //这样理解：如果回调函数返回的结果是promise，我们就把这个promise拆开，看看里面的结果是好是坏
                         result.then(
-                            value => resolve(value),
+                            value => resolve(value),  //回调函数为resolve就是把promise拆开的结果resolve出去
                             reason => reject(reason)
                         )
                     } else {
@@ -124,6 +126,7 @@
         return new Promise((resolve, reject) => {
             if(value instanceof Promise) {
                 // 使用value的结果作为promise
+                //value.then()会执行resolve或reject
                 value.then(resolve, reject)
             } else {
                 resolve(value)
