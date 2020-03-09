@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>双飞翼布局</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        html,
+        body {
+            min-width: 550px;
+        }
+
+        #header,
+        #footer {
+            background-color: pink;
+            text-align: center;
+            height: 60px;
+            line-height: 60px;
+        }
+
+        #container {
+            height: calc(100vh - 120px);
+            /* 清除浮动 */
+            overflow: hidden;   
+        }
+
+        #left,
+        #right,
+        #center {
+            float: left;
+            text-align: center;
+            /* height: 100%; */
+        }
+
+        #center {
+            height: 80%;
+            width: 100%;
+            background: rgb(206, 201, 201);
+        }
+
+        #left {
+            width: 200px;
+            /* -100%直接换到上面去了行了*/
+            margin-left: -100%;
+            background: rgba(95, 179, 235, 0.972);
+        }
+
+        #right {
+            width: 150px;
+            margin-left: -150px;
+            background: rgb(231, 105, 2);
+        }
+
+        .content {
+            /* 用margin留位置，浮动会覆盖掉它*/
+            margin: 0 150px 0 200px;
+        }
+    </style>
+</head>
+<!-- 
+left、center、right三种都设置左浮动
+设置center宽度为100%  //浮动元素的包裹性，所以还是得声明一下
+设置负边距，left设置负边距为100%，right设置负边距为自身宽度
+设置content的margin值为左右两个侧栏留出空间，margin值大小为left和right宽度 -->
+
+<body>
+
+    <header id="header">#header</header>
+
+    <section id="container">
+        <main id="center" class="column">
+            <div class="content">#center</div>
+        </main>
+        <aside id="left" class="column">#left</aside>
+        <aside id="right" class="column">#right</aside>
+    </section>
+
+    <footer id="footer">#footer</footer>
+
+</html>

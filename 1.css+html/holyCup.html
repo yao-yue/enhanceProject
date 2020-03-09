@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>圣杯布局</title>
+</head>
+<style>
+    body {
+        min-width: 550px;
+        font-size: 24px;
+        color: white;
+        text-align: center;
+    }
+
+    #header,
+    #footer {
+        height: 60px;
+        background-color: grey;
+        line-height: 60px;
+    }
+
+    #container {
+        padding-left: 200px;
+        padding-right: 150px;
+    }
+
+    #container .column {
+        float: left;
+    }
+
+    #center {
+        background-color: darkslateblue;
+        width: 100%;
+    }
+
+    #left {
+        width: 200px;
+        margin-left: -100%;
+        position: relative;
+        right: 200px;
+        background-color: pink;
+    }
+
+    #right {
+        width: 150px;
+        /* 这个是向右移，右移自身的宽度吃掉自己然后换行 */
+        margin-right: -150px;  
+        background-color: deeppink;
+    }
+
+    #footer {
+        clear: both;
+    }
+</style>
+
+<body>
+    <div id="header">header</div>
+    <section id="container">
+        <main id="center" class="column">#center</main>
+        <aside id="left" class="column">#left</aside>
+        <aside id="right" class="column">#right</aside>
+    </section>
+    <div id="footer">footer</div>
+</body>
+
+</html>
