@@ -77,6 +77,7 @@ box-sizing ： content-box || border-box || inherit;
 ### js综合面试题
 函数提升优先，同名且覆盖
 关于new:  
+new的实现 创建一个空对象，原型链接到原型上，构造函数this指向对象。
 new Foo.getName();  // new (Foo.getName)()   
 new Foo().getName();  // (new Foo()).getName()
 
@@ -95,7 +96,7 @@ function throttle(fn, delay) {
         let nowTime = Date.now()
         if( nowTime - lastTime  > delay) {
             //修正this丢失
-            fn.call(this);
+            fn.call(this);   or  fn.apply(this,arguments)
             //同步时间
             lastTime = nowTime;
         }
@@ -109,7 +110,9 @@ function debounce(fn, delay) {
     let timer = null;
     return function() {
         //清除上一次的延时器
+        if(timer) {
         clearTimeout(timer);
+        }
         //重新设置新的延时器
         timer = setTimeout(funtion() {
             fn.call(this);
@@ -160,6 +163,7 @@ document.body.appendChild(script);
 6.close callback 关闭阶段
     执行close事件回调函数
 process.nextTick() 能在任何阶段优先执行
+总结： timer定时器阶段 -> pending callbacks某些系统操作的回调函数 -> idle,prepare准备工作 -> poll轮询阶段  -> check阶段 -> 关闭阶段
 
 
 
@@ -169,11 +173,13 @@ process.nextTick() 能在任何阶段优先执行
     系统DNS缓存
     路由器DNS缓存
     网络运行商DNS缓存
-    递归搜索， 举例 hbw.github.com
+    递归查询， 举例 hbw.github.com
     - .com域名下查找DNS解析
     - .github域名下查找DNS解析
     - hbw域名下查找解析
     - 找不到了，报错
+上面的说法有些错误，域名解析课本上解释： 一般都是迭代递归查询。因为递归搜索对根域名服务器的负载太大了。
+先查本地域名服务器，在到根域名服务器(共有13个），然后根域名服务器告诉你去查哪个顶级域名服务器，顶级域名服务器再告诉本地域名服务器去查哪个授权域名服务器。
 2. TCP连接，三次握手，
     第一次握手，由浏览器，告诉服务其我要发送请求了
     第二次握手，由服务器，告诉浏览器我准备接受了，你发送把
