@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>line 换行</title>
+    <style>
+        .wrapper {
+            background-color: pink;
+            height: 200px;
+            width: 300px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .box{
+            width: 20%;
+            height: 0;  
+            /* 如果是 height 的话，是相对于包含块的高度 所以正方形这样是不自适应的 */
+            padding-top: 20%;
+            background-color: orchid;
+            font-style: oblique; 
+            
+        }
+        .box2 {
+            font-style: italic; 
+            font-style: 40px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="box">测试一下aaa </div>
+        <div class="box2">测试一下aaa </div>
+    </div>
+</body>
+
+</html>
