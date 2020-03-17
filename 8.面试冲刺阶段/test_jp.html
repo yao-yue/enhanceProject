@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jp</title>
+</head>
+
+<body>
+    <script>
+        function $jsonp(url, opts = {}, data = {}) {
+            getQueryString = (data) => {
+                let ret = ''
+                for (let key in data) {
+                    const value = data[key] !== undefined ? data[key] : ''
+                    ret += `${key}=${encodeURIComponent(value)}&`
+                }
+                return ret
+            }
+            return new Promise((resolve, reject) => {
+                const {
+                    prefix = '__jp',
+                    timeout = 6000,
+                    param = 'callback'
+                } = opts
+                //拼接queryString
+                //jsop的回调函数名处理
+                //挂载
+                let count = 0
+                let ident = prefix + count++
+                let timer = null
+                window[ident] = function (res) {
+                    if (window[ident]) {   //执行到这里说明拿到了数据
+                        cleanup()
+                    }
+                    // resolve(res)
+                }
+                //清理 
+                function cleanup() {
+                    //开始清除逻辑
+                    if (script.parentNode) {
+                        script.parentNode.removeChild(script)
+                    }
+                    if (timer) {
+                        clearTimeout(timer)
+                    }
+                }
+                //超时处理
+                if (timeout) {
+                    timer = setTimeout(() => {
+                        cleanup();       //清理 
+                        reject('Timeout')
+                    }, timeout)
+                }
+                let qs = getQueryString(data)
+                url += (~url.indexOf('?') ? '' : '?') + (qs ? qs + param : param) + '=' + encodeURIComponent(ident)
+                resolve(url)
+                script = document.createElement('script')
+                script.src = url
+                let target = document.getElementsByTagName('script')[0] || document.head
+                target.parentNode.insertBefore(script, target)
+            })
+        }
+
+        // http://api.map.baidu.com/telematics/v3/weather?location=${city}&output=json&ak=3p49MVra6urFRGOT9s8UBWr2
+        const data1 = {
+            location: '北京',
+            output: 'json',
+            ak: '3p49MVra6urFRGOT9s8UBWr2'
+        }
+        const url1 = `http://api.map.baidu.com/telematics/v3/weather`
+        const opts1 = {}
+        $jsonp(url1, opts1, data1).then(data => console.log(data))
+    </script>
+</body>
+
+</html>

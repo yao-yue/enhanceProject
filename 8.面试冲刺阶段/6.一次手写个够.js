@@ -199,15 +199,69 @@ function createObj() {
 
 
 //封装一个jsonp
-function $jsonp(url, data) {
-    return new Promise((resolve, reject) =>{
+function $jsonp(url, opts = {}, data = {}) {
+    getQueryString = (data) => {
+        let ret = ''
+        for (let key in data) {
+            const value = data[key] !== undefined ? data[key] : ''
+            ret += `${key}=${encodeURIComponent(value)}&`
+        }
+        return ret
+    }
+    return new Promise((resolve, reject) => {
+        const {
+            prefix = '__jp',
+            timeout = 6000,
+            param = 'callback'
+        } = opts
         //拼接queryString
         //jsop的回调函数名处理
         //挂载
-        //错误处理
-
+        let count = 0
+        let ident = prefix + count++
+        let timer = null
+        window[ident] = function (res) {
+            if (window[ident]) {   //执行到这里说明拿到了数据
+                cleanup()
+            }
+            // resolve(res)
+        }
+        //清理 
+        function cleanup() {
+            //开始清除逻辑
+            if (script.parentNode) {
+                script.parentNode.removeChild(script)
+            }
+            if (timer) {
+                clearTimeout(timer)
+            }
+        }
+        //超时处理
+        if (timeout) {
+            timer = setTimeout(() => {
+                cleanup();       //清理 
+                reject('Timeout')
+            }, timeout)
+        }
+        let qs = getQueryString(data)
+        url += (~url.indexOf('?') ? '' : '?') + (qs ? qs + param : param) + '=' + encodeURIComponent(ident)
+        resolve(url)
+        script = document.createElement('script')
+        script.src = url
+        let target = document.getElementsByTagName('script')[0] || document.head
+        target.parentNode.insertBefore(script, target)
     })
 }
+
+// http://api.map.baidu.com/telematics/v3/weather?location=${city}&output=json&ak=3p49MVra6urFRGOT9s8UBWr2
+const data1 = {
+    location: '北京',
+    output: 'json',
+    ak: '3p49MVra6urFRGOT9s8UBWr2'
+}
+const url1 = `http://api.map.baidu.com/telematics/v3/weather`
+const opts1 = {}
+$jsonp(url1, opts1, data1).then(data => console.log(data))
 
 
 //手写继承
@@ -227,7 +281,53 @@ function inherit(child, parent) {
     child.prototype = new F()  
     child.__proto__.constructor = child     // child -> new F() -> parent   
 }
-
 inherit(Man, Human)
 
-Man.run()
+
+//封装一个ajax
+function $ajax(url, method = 'GET', data={}) {
+    function getQueryString(data) {
+        let ret = ''
+        for(let key in data) {
+            const value = data[key]?data[key] : ''
+            ret = `${key}=${encodeURIComponent(value)}`
+        }
+        return ret
+    }
+    return new Promise((resolve, reject) => {
+        let qs = getQueryString(data)
+        url += (~url.indexOf('?')?'':'?') + qs
+        let xhr = new XMLHttpRequest()
+        // xhr.onload == xhr.onreadystatechange -> readyState4
+        xhr.open(method, url, true)
+        xhr.onload = function() {
+            const result = {
+                status : xhr.status,
+                headers: xhr.getResponseHeader(),
+                data: xhr.response || xhr.responseText
+            }
+            if((xhr.status >= 200 && xhr.status <300) || xhr.status == '304') {
+                resolve(result)
+            }else {
+                reject(result)
+            }
+        }
+        xhr.timeout = 6000
+        xhr.ontimeout = function() {
+            reject('获取超时')
+        }
+        xhr.onerror = function() {
+            reject('获取出错')
+        }
+        xhr.onabort = function() {
+            reject('获取被终止')
+        }
+        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded')
+        if(method === 'POST') {
+            xhr.send(qs)
+        }else {
+            xhr.send()
+        }
+    })
+}
+
