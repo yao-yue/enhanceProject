@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>holycup</title>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+    html, body {
+        min-width: 550px;
+        color: white;
+        font-size: 24px;
+        text-align: center;
+    }
+    #header, #footer {
+        height: 60px;
+        background-color: goldenrod;  
+        line-height: 60px;
+    }
+    #main, #aside1, #aside2 {
+        float: left;
+    }
+    #section {
+        overflow: hidden;
+        padding: 0 150px 0 200px;
+    }
+    #aside1 {
+        width: 200px;
+        background-color: green;
+        margin-left: -100%;
+        /*需要position:relative 来移动*/
+        position: relative;
+        left: -200px;
+    }
+    #aside2 {
+        width: 150px;
+        background-color: rebeccapurple;
+        margin-right: -150px;
+    }
+    #main {
+        background-color: royalblue;
+        /* 需要显示的声明下宽度  因为浮动的包裹性 */
+        width: 100%;    
+    }
+    #footer {
+        clear: both;
+    }
+</style>
+<body>
+    <header id="header">header</header>
+    <section id="section">
+        <main id="main">main
+            skjdasmmsl;akdmksjamd sjkad,.sanld,.ncjkol,ncjkol,
+            skjdasmmsl;akdmksjamd sjkad,.sanld,.ncjkol,ncjkol,
+            skjdasmmsl;akdmksjamd sjkad,.sanld,.ncjkol,ncjkol,
+            skjdasmmsl;akdmksjamd sjkad,.sanld,.ncjkol,ncjkol,
+            skjdasmmsl;akdmksjamd sjkad,.sanld,.ncjkol,ncjkol,
+            skjdasmmsl;akdmksjamd sjkad,.sanld,.ncjkol,ncjkol,
+            skjdasmmsl;akdmksjamd sjkad,.sanld,.ncjkol,ncjkol,
+            skjdasmmsl;akdmksjamd sjkad,.sanld,.ncjkol,ncjkol,
+            skjdasmmsl;akdmksjamd sjkad,.sanld,.ncjkol,ncjkol,
+            skjdasmmsl;akdmksjamd sjkad,.sanld,.ncjkol,ncjkol,
+            skjdasmmsl;akdmksjamd sjkad,.sanld,.ncjkol,ncjkol,
+            skjdasmmsl;akdmksjamd sjkad,.sanld,.ncjkol,ncjkol,
+            skjdasmmsl;akdmksjamd sjkad,.sanld,.ncjkol,ncjkol,
+            skjdasmmsl;akdmksjamd sjkad,.sanld,.ncjkol,ncjkol,
+            skjdasmmsl;akdmksjamd sjkad,.sanld,.ncjkol,ncjkol,
+        </main>
+        <aside id="aside1">aside1
+        </aside>
+        <aside id="aside2">aside2</aside>
+</section>
+<footer id="footer">footer</footer>
+</body>
+</html>
