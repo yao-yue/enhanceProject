@@ -32,4 +32,5 @@ console.log('修改后的obj2', obj2)   //{ a: 4, b: [ 1, 2, 3 ], c: { d: 1, e: 
 console.log('是否会影响之前的obj？',obj) //{ a: 1, b: [ 1, 2, 3 ], c: { d: 1, e: 2, f: 3 } }
 // 经验证不会
 
-console.log(deepClone(1))
+// 测试Object.values()
+console.log(Object.values(obj))
