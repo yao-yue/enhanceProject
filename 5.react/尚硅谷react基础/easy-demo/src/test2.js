@@ -1,0 +1,1 @@
+export default Add = (a,b) => (a+b)

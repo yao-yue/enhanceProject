@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>嘎嘎嘎</title>
+    <style>
+    </style>
+</head>
+
+<body>
+    <h1>JUST FOR TEST</h1>
+
+    <div id="root"></div>
+    <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <script type="text/babel">
+        // class Box extends React.Component {
+        //     constructor(props) {
+        //         super(props);
+        //         this.state = { color: "blue" };
+        //     }
+        //     render() {
+        //         return (
+        //             <div style={{
+        //                 width: 200,
+        //                 height: 200,
+        //                 backgroundColor: `${this.state.color}`,
+        //                 color: 'white',
+        //                 fontSize: 24,
+        //                 // lineHeight: 200,这个属性会出问题
+        //                 textAlign: 'center'
+        //             }}
+        //             onClick={() => this.setState({
+        //                 color: this.state.color === 'red' ? 'blue':'red'
+        //             })}>change color</div>
+        //         )
+        //     }
+        // }
+
+
+        const useState = React.useState
+        const useEffect = React.useEffect
+        function Example() {
+            // 声明一个新的叫做 “count” 的 state 变量
+            const [count, setCount] = React.useState(0);
+
+            return (
+                <div>
+                    <p>You clicked {count} times</p>
+                    <button onClick={() => setCount(count + 1)}>
+                        Click me
+                    </button>
+                </div>
+            );
+        }
+        React.createElement(Example)
+        function Box2() {
+            const [bgc, setBgc] = useState('blue')
+            return (
+                <div style={{
+                    width: 200,
+                    height: 200,
+                    backgroundColor: `${bgc}`,
+                    color: 'white',
+                    fontSize: 24,
+                    // lineHeight: 200,这个属性会出问题
+                    textAlign: 'center'
+                }}
+                    onClick={() => bgc==='blue'?setBgc('red'):setBgc('blue')}>change color
+                    <Example/>
+                    </div>
+            )
+        }
+        const domContainer = document.querySelector('#root');
+        ReactDOM.render(React.createElement(Box2), domContainer);
+    </script>
+</body>
+
+</html>
