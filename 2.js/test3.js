@@ -35,14 +35,8 @@
 
 let numStr = '13590406666'
 
-function isNiceNum(numStr) {
-    //参数校验 
-    if(!numStr) return 'N'
-    numStr = numStr.toString()
-    let regex = /(([\d])([\d])([\d])([\d]))+$/
-    let checkAdd = numStr.match(regex)
-    console.log(checkAdd)
- 
-}
+let regex = /(\d{4})+/g
+let res = numStr.match(regex)
+console.log(RegExp.$1)         //可以得到match结果里面的值
 
-console.log(isNiceNum(numStr))
+console.log(res)
