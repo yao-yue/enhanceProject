@@ -1,6 +1,6 @@
 // import Head from 'next/head'
 import Myheader from '../components/myheader'
-// import  '../static/test.css'
+import  '../static/test.css'
 // import { Button } from 'antd'
 
 function Header() {
