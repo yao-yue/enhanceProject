@@ -34,3 +34,4 @@ const One = dynamic(import('../components/one'))
 再配置next.config.js配置文件
 10. ant design 按需加载,yarn add babel-plugin-import,在.babelrc文件里面配置
 11. 踩到的一个坑 加载了antd之后，路由莫名奇妙跳转出错
+12. 生产环境打包 应该是打包到.next文件中把
