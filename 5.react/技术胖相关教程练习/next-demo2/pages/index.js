@@ -3,7 +3,7 @@ import Link from 'next/link'
 import Router from 'next/router'
 const Home = () => {
   function gotoA() {
-    Router.push('/jspangA')
+    Router.push('/jspang')
   }
   function gotoXiaojiejie() {
     // Router.push('/xiaojiejie?name=xxx')
@@ -13,6 +13,9 @@ const Home = () => {
         name: '井空'
       }
     })
+  }
+  function gotoHeader() {
+    Router.push('/header')
   }
   Router.events.on('routeChangeStart', (...args) => {
     console.log('1.routeChangeStart->路由开始变化,参数为:', ...args)
@@ -45,24 +48,18 @@ const Home = () => {
         <Link href="/xiaojiejie?name=波多野结衣"><a>选波多野结衣</a></Link><br />
         <Link href="/xiaojiejie?name=苍井空"><a>选苍井空</a></Link>
         <div>
-          <button onClick={gotoXiaojiejie}>去JspangA页面</button>
+          <button onClick={gotoA}>去Jspang页面</button>
         </div>
         <div>
           <Link href="#jspang"><a>选JSPang</a></Link>
         </div>
+        <div>
+          <Link href="/time"><a>去看看时间</a></Link>
+        </div>
+        <div>
+          <button onClick={gotoHeader}>去看看标题</button>
+        </div>
       </div>
-      {/* <div>
-        <Link href="/jspangA">
-          <a>
-            <span>去JspangA页面</span>
-            <span>前端博客</span>
-          </a>
-        </Link>
-      </div>
-      <div><Link href="/jspangB"><a>去JspangB页面</a></Link></div>
-      <div>
-        <button onClick={gotoA}>去JspangA页面</button>
-      </div> */}
     </>
   )
 
