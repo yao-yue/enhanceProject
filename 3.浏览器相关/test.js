@@ -7,4 +7,6 @@ app.get('/say', function(req, res) {
   console.log(callback) // show
   res.end(`${callback}('我不爱你')`)
 })
-app.listen(3000)
+app.listen(3000,function() {
+  console.log('我正在监听3000端口');
+})
